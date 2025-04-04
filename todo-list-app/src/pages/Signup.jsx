@@ -19,7 +19,7 @@ const Signup = () => {
     console.log("Sending Signup Request:", requestBody); // Debugging
 
     try {
-      const response = await fetch("http://localhost:4001/signup", {
+      const response = await fetch("https://todo-list-backend-9jhe.onrender.com/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
