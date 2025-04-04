@@ -4,7 +4,7 @@ import TodoItem from "./TodoItems";
 import { useNavigate } from "react-router-dom";
 import "./TodoList.css";
 
-const API_URL = "http://localhost:4001/todo";
+const API_URL = "https://todo-list-backend-9jhe.onrender.com/todo";
 
 function TodoList() {
   const [tasks, setTasks] = useState([]);
