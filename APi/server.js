@@ -12,7 +12,7 @@ app.use(cors());
 const Todo = require('./models/Todo');
 const User = require('./models/User'); 
 
-const port = 4001; 
+const port = process.env.port || 4001; 
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('✅ Connected to the MongoDB database...'))
