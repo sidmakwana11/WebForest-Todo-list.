@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css'; 
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -37,7 +37,8 @@ if (!response.ok) {
 localStorage.setItem("userId", data.userId);
 localStorage.setItem("username", data.username); 
 
-
+if (onLogin) onLogin();
+      
 navigate("/");
 
     } catch (err) {
