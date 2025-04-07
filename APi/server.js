@@ -52,41 +52,40 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   
 
 app.post('/login', async (req, res) => {
-  console.log("📩 Received request body in /login:", req.body);  
+  console.log("📩 Received /login request:", req.body);
 
   try {
-    if (!req.body || typeof req.body !== "object") {
-      return res.status(400).json({ error: "Invalid request format" });
-    }
-
-    const { email, password } = req.body;  
+    const { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
 
-    console.log("🟢 Login request received for email:", email);
-
     const user = await User.findOne({ email });
+
     if (!user) {
+      console.log("❌ User not found");
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.log("❌ Password mismatch");
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    console.log("✅ Login successful!");
+    console.log("✅ Login success");
     res.json({ 
       message: "Login successful", 
       userId: user._id, 
       username: user.username 
     });
-  } catch (error) {
-    console.error("❌ Error in /login:", error);
+
+  } catch (err) {
+    console.error("🔥 Internal Server Error in /login:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 
 // ✅ Get all Todos
