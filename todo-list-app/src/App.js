@@ -1,21 +1,29 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import TodoList from "./components/TodoList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-// import Navbar from "./components/Navbar";
 import "./App.css";
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem("userId");
- // Check if user is logged in
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("userId"));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAuthenticated(!!localStorage.getItem("userId"));
+    };
+
+    // Listen for storage updates (in case multiple tabs, or login changes)
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   return (
     <BrowserRouter>
-      {/* <Navbar /> */}
       <Routes>
         <Route path="/" element={isAuthenticated ? <TodoList /> : <Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login onLogin={() => setIsAuthenticated(true)} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
