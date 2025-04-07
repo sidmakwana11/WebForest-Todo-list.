@@ -8,7 +8,10 @@ require('dotenv').config();
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
-app.use(cors()); 
+app.use(cors({
+  origin: 'https://todo-list-frontend-e7fc.onrender.com',
+  credentials: true
+})); 
 const Todo = require('./models/Todo');
 const User = require('./models/User'); 
 
